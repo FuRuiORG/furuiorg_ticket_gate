@@ -46,12 +46,14 @@ class FuruiorgTicketGate extends Plugin
     public function homeCheckAccess($param)
     {
         $rule = $param['rule'] ?? '';
-        $clientId = $param['client_id'] ?? 0;
 
         # 仅拦截创建工单,其它规则一律放行
         if ($rule !== self::TICKET_CREATE_RULE) {
             return [];
         }
+
+        # 子账号自动解析为父账号ID,主账号即自身(未登录返回 0)
+        $clientId = get_client_id();
 
         # 未登录交给框架自身登录校验
         if (empty($clientId)) {
@@ -66,7 +68,8 @@ class FuruiorgTicketGate extends Plugin
     # 会员中心页面注入前端提示文案改写脚本(钩子:clientarea_view_append)
     public function clientareaViewAppend($param)
     {
-        $clientId = $param['client_id'] ?? 0;
+        # 子账号自动解析为父账号ID,主账号即自身(未登录返回 0)
+        $clientId = get_client_id();
 
         # 未登录不注入
         if (empty($clientId)) {
