@@ -10,6 +10,15 @@
 ![未购买产品](img/ktcp.png)
 ![未实名认证](img/smrz.png)
 
+# 已知问题
+>[!NOTE]
+>目前已知问题未子账号可绕过限制，暂时无法修复请您禁用子账号功能亦或是手动修改`idcsmart_ticket`插件
+
+原因：
+home_auth_rule_{clientId}`在子账号登录时就被sub_account插件写入了，IdcsmartSubAccount.php(afterClientLogin →Cache::set('home_auth_rule_'.$id, ...))
+之后任何客户端请求，PluginBaseController.php命中缓存后就在第行return true而根本不执行本插件的的hook('home_check_access')。
+于是子账号（其权限集里含工单创建规则时）点创建工单>缓存in_array命中>直接放行。
+
 ## 拦截规则
 
 满足以下**全部**条件时才允许创建工单：
@@ -25,7 +34,7 @@
 
 ## 问题
 
-若有问题，请提交issues，目前已知问题未子账号可绕过限制，等待进一步修复或者禁用子账号功能
+若有问题，请提交issues，目前已知问题未子账号可绕过限制，暂时无法修复请您禁用子账号功能亦或是手动修改`idcsmart_ticket`插件
 
 ## 配置项
 
