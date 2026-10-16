@@ -21,7 +21,7 @@
 
 ## 安装位置
 
-上传插件至/public/plugins/addon并且在后台启用插件，默认实名认证限制开关和已激活产品限制开关都为开启状态
+上传插件至/public/plugins/addon/furuiorg_ticket_gate并且在后台启用插件，默认实名认证限制开关和已激活产品限制开关都为开启状态
 
 ## 问题
 
