@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/plugins/addon/furuiorg_ticket_gate/template/admin/css/index.css" />
+<!-- =======内容区域=======   -->
+
+<div id="content" class="template furuiorg_ticket_gate" v-cloak>
+  <com-config>
+    <t-card class="list-card-container">
+      <ul class="common-tab">
+        <li class="active">
+          <a href="javascript:;">{{lang.furuiorg_ticket_gate_title}}</a>
+        </li>
+      </ul>
+      <t-form :data="configObj" :label-width="220">
+        <t-form-item :label="lang.furuiorg_ticket_gate_certification_open">
+          <t-switch size="large" :custom-value="[1,0]" :label="[lang.switch_open, lang.switch_close]"
+            v-model="configObj.furuiorg_ticket_gate_certification_open"></t-switch>
+          <span>{{lang.furuiorg_ticket_gate_certification_tip}}</span>
+        </t-form-item>
+        <t-form-item :label="lang.furuiorg_ticket_gate_host_open">
+          <t-switch size="large" :custom-value="[1,0]" :label="[lang.switch_open, lang.switch_close]"
+            v-model="configObj.furuiorg_ticket_gate_host_open"></t-switch>
+          <span>{{lang.furuiorg_ticket_gate_host_tip}}</span>
+        </t-form-item>
+        <div class="f-btn">
+          <t-button theme="primary" @click="saveConfig" :loading="submitLoading">{{lang.furuiorg_ticket_gate_save}}
+          </t-button>
+        </div>
+      </t-form>
+    </t-card>
+  </com-config>
+</div>
+<script src="/plugins/addon/furuiorg_ticket_gate/template/admin/js/lang.js"></script>
+<script src="/plugins/addon/furuiorg_ticket_gate/template/admin/api/config.js"></script>
+<script src="/plugins/addon/furuiorg_ticket_gate/template/admin/js/index.js"></script>
