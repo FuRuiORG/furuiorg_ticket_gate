@@ -1,48 +1,37 @@
 # furuiorg_ticket_gate
 
-魔方业务（V10）工单创建准入拦截插件。
+魔方业务V10的工单创建准入插件，限制未实名或从未激活产品的用户创建工单。
 
-## 简介
+## 规则
 
-对未实名认证、或账号历史从未有过已激活产品的用户，禁止其创建工单（工单功能由官方插件 `idcsmart_ticket` 提供）。
-
-![后台示例](img/admin.png)
-![未购买产品](img/ktcp.png)
-![未实名认证](img/smrz.png)
-
-# 已知问题
->[!NOTE]
->目前已知问题未子账号可绕过限制，暂时无法修复请您禁用子账号功能亦或是手动修改`idcsmart_ticket`插件
-
-原因：
-home_auth_rule_{clientId}`在子账号登录时就被sub_account插件写入了，IdcsmartSubAccount.php(afterClientLogin →Cache::set('home_auth_rule_'.$id, ...))
-之后任何客户端请求，PluginBaseController.php命中缓存后就在第行return true而根本不执行本插件的的hook('home_check_access')。
-于是子账号（其权限集里含工单创建规则时）点创建工单>缓存in_array命中>直接放行。
-
-## 拦截规则
-
-满足以下**全部**条件时才允许创建工单：
+满足以下全部条件才允许创建工单：
 
 1. 已完成实名认证；
-2. 账号历史存在状态为 `Active` / `Suspended` / `Deleted` 的产品（即曾激活过产品）。
+2. 账号历史存在`Active`、`Suspended`或`Deleted`状态的产品。
 
-两项规则均可在插件配置中单独开关，关闭时该不做限制。
+两项规则可在插件配置中单独关闭。
 
-## 安装位置
+## 安装
 
-上传插件至/public/plugins/addon/furuiorg_ticket_gate并且在后台启用插件，默认实名认证限制开关和已激活产品限制开关都为开启状态
+把插件放到：
 
-## 问题
+```
+public/plugins/addon/furuiorg_ticket_gate/
+```
 
-若有问题，请提交issues，目前已知问题未子账号可绕过限制，暂时无法修复请您禁用子账号功能亦或是手动修改`idcsmart_ticket`插件
+在后台启用。默认两项限制均开启。
 
-## 配置项
+## 配置
 
-| 配置                                      | 说明               | 默认      |
-| ----------------------------------------- | ------------------ | --------- |
-| `furuiorg_ticket_gate_certification_open` | 实名认证限制开关   | 1（开启） |
-| `furuiorg_ticket_gate_host_open`          | 已激活产品限制开关 | 1（开启） |
+| 配置 | 说明 | 默认 |
+| --- | --- | --- |
+| `furuiorg_ticket_gate_certification_open` | 实名认证限制 | 1 |
+| `furuiorg_ticket_gate_host_open` | 已激活产品限制 | 1 |
 
-## 作者
+## 已知问题
 
-FuRuiORG、YeHuaiJing
+子账号可通过缓存权限绕过`home_check_access`钩子。可禁用子账号功能，或修改`idcsmart_ticket`插件。
+
+## License
+
+MIT，见`LICENSE`。
